@@ -1216,19 +1216,22 @@ def render_landing_page():
   </div>
   <h1 style="font-size:clamp(32px,5.5vw,62px);font-weight:700;color:#FFFFFF;letter-spacing:-1.5px;
              line-height:1.08;margin:0 0 20px;">
-    Your Oura Ring knows things<br>your doctor doesn't.
+    Your biometrics, connected<br>to the science behind them.
   </h1>
   <p style="font-size:clamp(16px,2vw,19px);color:#888888;line-height:1.65;max-width:600px;margin:0 auto 40px;">
-    Pulse connects your complete biometric history to peer-reviewed science.
-    See what your body is actually telling you.
+    Pulse links your complete Oura Ring history to peer-reviewed research —
+    so you understand not just your numbers, but what they mean.
   </p>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;">
     <a href="{auth_url}" target="_self" class="lp-cta" data-track="hero-cta">
       <span class="shimmer"></span>
       <span style="position:relative;z-index:1;">Connect your Oura Ring &mdash; free &#8594;</span>
     </a>
-    <p style="font-size:12px;color:#444444;margin:0;">No credit card required to start</p>
+    <a href="?mode=research" target="_self" class="lp-sec-btn" data-track="hero-research">
+      Explore research topics &#8594;
+    </a>
   </div>
+  <p style="font-size:12px;color:#444444;margin:8px 0 0;">No credit card required to start</p>
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
               margin-top:32px;padding:14px 24px;background:rgba(255,255,255,0.03);
               border:1px solid rgba(255,255,255,0.06);border-radius:12px;max-width:580px;margin-left:auto;margin-right:auto;">
@@ -2109,12 +2112,34 @@ elif _modal_slug:
     render_modal(_modal_slug, mode=_modal_mode)
 
 else:
-    if not connected:
+    # Allow non-connected users to browse research mode via ?mode=research
+    _route_mode = st.query_params.get("mode", "")
+    if _route_mode == "research" and not st.session_state.get("mode"):
+        st.session_state["mode"] = "research"
+
+    if not connected and st.session_state.get("mode") != "research":
         render_landing_page()
     else:
         search_query = render_navbar()
-        # Persistent free-tier upgrade banner (disappears once paid)
-        if not st.session_state.get("is_paid", False):
+        if not connected:
+            # Guest banner — no ring connected yet
+            st.markdown(
+                '<div style="background:rgba(124,106,247,0.06);border-bottom:1px solid rgba(124,106,247,0.15);'
+                'padding:8px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;" '
+                'data-track="guest-banner">'
+                '<p style="font-size:13px;color:#888888;margin:0;">'
+                '&#128301; Browsing research topics. '
+                '<span style="color:#7C6AF7;">Connect your Oura Ring to unlock your personal data analysis.</span></p>'
+                f'<a href="{get_auth_url()}" target="_self" '
+                'style="font-size:12px;font-weight:600;color:#080808;background:#7C6AF7;'
+                'text-decoration:none;border-radius:6px;padding:5px 14px;white-space:nowrap;'
+                'transition:opacity 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">'
+                'Connect Oura Ring</a>'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+        elif not st.session_state.get("is_paid", False):
+            # Connected but not paid — upgrade banner
             st.markdown(
                 '<div style="background:rgba(0,200,150,0.06);border-bottom:1px solid rgba(0,200,150,0.15);'
                 'padding:8px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;" '
