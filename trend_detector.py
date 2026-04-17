@@ -1,6 +1,6 @@
 import json
 from groq import Groq
-from secrets import get_secret
+from config import get_secret
 
 METRICS_TO_ANALYSE = [
     "date",

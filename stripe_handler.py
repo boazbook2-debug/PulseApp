@@ -1,5 +1,5 @@
 import stripe
-from secrets import get_secret
+from config import get_secret
 
 
 def create_checkout_session(email: str) -> str:
