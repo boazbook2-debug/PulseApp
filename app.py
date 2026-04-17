@@ -1,6 +1,17 @@
+import os
 import streamlit as st
+
+# Inject Streamlit Cloud secrets into os.environ so all modules can use os.environ
+try:
+    for _k, _v in st.secrets.items():
+        os.environ.setdefault(_k, str(_v))
+except Exception:
+    pass
+
+from dotenv import load_dotenv
+load_dotenv()  # local .env fallback
+
 from groq import Groq
-from pulse_config import get_secret
 from auth import get_auth_url, exchange_code_for_tokens, get_user_info
 from database import (
     save_user, get_oura_data, save_oura_data, get_user_by_email,
@@ -32,7 +43,7 @@ def get_topic_summary(headline: str, description: str, query: str, spec_val: int
     """Call Claude to generate a plain-English research summary. Cached 24h."""
     try:
         ev_type, _ = get_evidence_label(spec_val)
-        client = Groq(api_key=get_secret("GROQ_API_KEY"))
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             max_tokens=700,

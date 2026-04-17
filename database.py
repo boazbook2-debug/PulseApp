@@ -1,10 +1,10 @@
+import os
 from supabase import create_client
-from pulse_config import get_secret
 
 
 def get_client():
-    url = get_secret("SUPABASE_URL")
-    key = get_secret("SUPABASE_KEY")
+    url = os.environ.get("SUPABASE_URL", "")
+    key = os.environ.get("SUPABASE_KEY", "")
     return create_client(url, key)
 
 

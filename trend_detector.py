@@ -1,6 +1,6 @@
+import os
 import json
 from groq import Groq
-from pulse_config import get_secret
 
 METRICS_TO_ANALYSE = [
     "date",
@@ -92,7 +92,7 @@ def detect_trends(rows):
         return []
 
     data_table = _format_data(data_rows)
-    client = Groq(api_key=get_secret("GROQ_API_KEY"))
+    client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         max_tokens=3000,
