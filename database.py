@@ -1,13 +1,10 @@
-import os
 from supabase import create_client
-from dotenv import load_dotenv
-
-load_dotenv()
+from secrets import get_secret
 
 
 def get_client():
-    url = os.environ["SUPABASE_URL"]
-    key = os.environ["SUPABASE_KEY"]
+    url = get_secret("SUPABASE_URL")
+    key = get_secret("SUPABASE_KEY")
     return create_client(url, key)
 
 

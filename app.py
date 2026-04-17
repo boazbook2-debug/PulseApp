@@ -1,6 +1,6 @@
-import os
 import streamlit as st
 from groq import Groq
+from secrets import get_secret
 from auth import get_auth_url, exchange_code_for_tokens, get_user_info
 from database import (
     save_user, get_oura_data, save_oura_data, get_user_by_email,
@@ -14,9 +14,6 @@ from design import (
     apply_design_system, get_glow_color,
     get_evidence_shadow, get_slider_shadow, get_conf_color, get_conf_shadow,
 )
-from dotenv import load_dotenv
-load_dotenv()
-
 st.set_page_config(page_title="Pulse", layout="wide", initial_sidebar_state="collapsed")
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -35,7 +32,7 @@ def get_topic_summary(headline: str, description: str, query: str, spec_val: int
     """Call Claude to generate a plain-English research summary. Cached 24h."""
     try:
         ev_type, _ = get_evidence_label(spec_val)
-        client = Groq(api_key=os.environ["GROQ_API_KEY"])
+        client = Groq(api_key=get_secret("GROQ_API_KEY"))
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             max_tokens=700,
