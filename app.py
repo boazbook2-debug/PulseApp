@@ -1812,7 +1812,7 @@ def render_pricing_page():
 
     _error_html = (
         f'<p style="font-size:13px;color:#E05050;text-align:center;margin:12px 0 0;max-width:420px;">'
-        f'Stripe is not configured. Add STRIPE_SECRET_KEY and STRIPE_PRICE_ID to Streamlit Cloud Secrets, then reboot the app.</p>'
+        f'{_checkout_error}</p>'
         if _checkout_error else ""
     )
 

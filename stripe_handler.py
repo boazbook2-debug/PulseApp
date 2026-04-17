@@ -12,7 +12,7 @@ def create_checkout_session(email: str) -> str:
     session = stripe.checkout.Session.create(
         mode="subscription",
         line_items=[{"price": price_id, "quantity": 1}],
-        customer_email=email,
+        customer_email=email if email else None,
         success_url=f"{base_url}?session_id={{CHECKOUT_SESSION_ID}}",
         cancel_url=f"{base_url}?page=pricing",
     )
