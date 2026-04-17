@@ -608,20 +608,20 @@ button[data-testid="stBaseButton-primary"]:active {{
 }}
 
 /* ── Global link reset — no browser-default blue or underlines ─────────── */
-a, a:link, a:visited, a:hover, a:active, a:focus {
+a, a:link, a:visited, a:hover, a:active, a:focus {{
     text-decoration: none !important;
     -webkit-text-decoration: none !important;
-}
+}}
 /* Streamlit markdown renders <a> with its own blue — override */
-[data-testid="stMarkdownContainer"] a {
+[data-testid="stMarkdownContainer"] a {{
     color: #00C896 !important;
     text-decoration: none !important;
-}
+}}
 
 /* ── Raise body text contrast globally ─────────────────────────────────── */
-[data-testid="stMarkdownContainer"] p {
+[data-testid="stMarkdownContainer"] p {{
     color: #C0C0C0;
-}
+}}
 
 /* ── Scroll-triggered entrance animations ───────────────────────────────── */
 @keyframes fadeInUp {{
