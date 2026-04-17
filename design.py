@@ -607,6 +607,44 @@ button[data-testid="stBaseButton-primary"]:active {{
     border: none !important;
 }}
 
+/* ── Global link reset — no browser-default blue or underlines ─────────── */
+a, a:link, a:visited, a:hover, a:active, a:focus {
+    text-decoration: none !important;
+    -webkit-text-decoration: none !important;
+}
+/* Streamlit markdown renders <a> with its own blue — override */
+[data-testid="stMarkdownContainer"] a {
+    color: #00C896 !important;
+    text-decoration: none !important;
+}
+
+/* ── Raise body text contrast globally ─────────────────────────────────── */
+[data-testid="stMarkdownContainer"] p {
+    color: #C0C0C0;
+}
+
+/* ── Scroll-triggered entrance animations ───────────────────────────────── */
+@keyframes fadeInUp {{
+    from {{ opacity: 0; transform: translateY(28px); }}
+    to   {{ opacity: 1; transform: translateY(0); }}
+}}
+.anim-section {{
+    animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}}
+.anim-s1 {{ animation-delay: 0.05s; }}
+.anim-s2 {{ animation-delay: 0.18s; }}
+.anim-s3 {{ animation-delay: 0.31s; }}
+.anim-s4 {{ animation-delay: 0.44s; }}
+.anim-s5 {{ animation-delay: 0.57s; }}
+.anim-s6 {{ animation-delay: 0.70s; }}
+/* Modern Chrome: real scroll-triggered firing */
+@supports (animation-timeline: view()) {{
+    .anim-section {{
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+    }}
+}}
+
 /* ── Shared gradient CTA link (paywall, pricing, connect) ───────────────── */
 @keyframes glow-pulse {{
     0%,100% {{ box-shadow: 0 0 0 1px rgba(0,200,150,0.4), 0 0 32px rgba(0,200,150,0.28), 0 0 64px rgba(124,106,247,0.14); }}

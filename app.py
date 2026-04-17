@@ -1057,7 +1057,7 @@ def render_modal(slug: str, mode: str = "research"):
     )
 
     with st.spinner("Finding papers…"):
-        articles = search_pubmed(query, slider_value=sc_val, max_results=6)
+        articles = search_pubmed(query, slider_value=sc_val, max_results=min(papers_cnt, 20))
 
     if articles:
         html = '<div style="max-width:960px;margin:0 auto;padding:0 40px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
@@ -1215,17 +1215,12 @@ def render_landing_page():
 </div>
 
 <!-- ── HERO ── -->
-<div class="hero-animate" style="text-align:center;padding:80px 24px 64px;max-width:860px;margin:0 auto;">
-  <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,150,0.08);
-              border:1px solid rgba(0,200,150,0.2);border-radius:999px;padding:5px 16px;margin-bottom:28px;">
-    <span style="width:6px;height:6px;border-radius:50%;background:#00C896;display:inline-block;box-shadow:0 0 8px #00C896;"></span>
-    <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#00C896;">Personal Health Intelligence</span>
-  </div>
+<div class="hero-animate" style="text-align:center;padding:72px 24px 64px;max-width:860px;margin:0 auto;">
   <h1 style="font-size:clamp(32px,5.5vw,62px);font-weight:700;color:#FFFFFF;letter-spacing:-1.5px;
              line-height:1.08;margin:0 0 20px;">
     Your biometrics, connected<br>to the science behind them.
   </h1>
-  <p style="font-size:clamp(16px,2vw,19px);color:#888888;line-height:1.65;max-width:600px;margin:0 auto 40px;">
+  <p style="font-size:clamp(16px,2vw,19px);color:#C8C8C8;line-height:1.65;max-width:600px;margin:0 auto 40px;">
     Pulse links your complete Oura Ring history to peer-reviewed research —
     so you understand not just your numbers, but what they mean.
   </p>
@@ -1242,41 +1237,41 @@ def render_landing_page():
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
               margin-top:32px;padding:14px 24px;background:rgba(255,255,255,0.03);
               border:1px solid rgba(255,255,255,0.06);border-radius:12px;max-width:580px;margin-left:auto;margin-right:auto;">
-    <span style="font-size:12px;color:#555555;">Connected to</span>
+    <span style="font-size:12px;color:#AAAAAA;">Connected to</span>
     <span style="font-size:12px;font-weight:600;color:#F0F0F0;">50,000+ PubMed papers</span>
-    <span style="color:#333333;">&middot;</span>
-    <span style="font-size:12px;color:#555555;">Analysing HRV, sleep, readiness, stress &amp; more</span>
+    <span style="color:#777777;">&middot;</span>
+    <span style="font-size:12px;color:#AAAAAA;">Analysing HRV, sleep, readiness, stress &amp; more</span>
   </div>
 </div>
 
 <!-- ── PROBLEM SECTION ── -->
-<div style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
+<div class="anim-section anim-s1" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
   <div style="max-width:960px;margin:0 auto;text-align:center;">
     <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;color:#F0F0F0;letter-spacing:-0.6px;margin:0 0 12px;">
       You have the data.<br>You don&rsquo;t have the answers.
     </h2>
-    <p style="font-size:15px;color:#555555;margin:0 0 48px;">Three problems. One solution.</p>
+    <p style="font-size:15px;color:#AAAAAA;margin:0 0 48px;">Three problems. One solution.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:left;">
       <div style="background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px 24px;">
         <div style="width:36px;height:36px;border-radius:8px;background:rgba(0,200,150,0.1);
                     border:1px solid rgba(0,200,150,0.2);display:flex;align-items:center;
                     justify-content:center;font-size:18px;margin-bottom:16px;">&#128200;</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Numbers without meaning</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">Your Oura shows scores and metrics. It doesn&rsquo;t explain what they mean for your body specifically.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">Your Oura shows scores and metrics. It doesn&rsquo;t explain what they mean for your body specifically.</p>
       </div>
       <div style="background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px 24px;">
         <div style="width:36px;height:36px;border-radius:8px;background:rgba(124,106,247,0.1);
                     border:1px solid rgba(124,106,247,0.2);display:flex;align-items:center;
                     justify-content:center;font-size:18px;margin-bottom:16px;">&#128196;</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Research not written for you</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">PubMed has 35 million papers. None of them are contextualised to your actual HRV, sleep latency, or recovery score.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">PubMed has 35 million papers. None of them are contextualised to your actual HRV, sleep latency, or recovery score.</p>
       </div>
       <div style="background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px 24px;">
         <div style="width:36px;height:36px;border-radius:8px;background:rgba(240,192,64,0.1);
                     border:1px solid rgba(240,192,64,0.2);display:flex;align-items:center;
                     justify-content:center;font-size:18px;margin-bottom:16px;">&#128176;</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Clinics cost $5,000/year</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">Longevity clinics offer this level of insight. They charge thousands. And they don&rsquo;t have your daily biometrics.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">Longevity clinics offer this level of insight. They charge thousands. And they don&rsquo;t have your daily biometrics.</p>
       </div>
     </div>
     <div style="margin-top:32px;padding:20px;background:rgba(0,200,150,0.04);
@@ -1287,46 +1282,46 @@ def render_landing_page():
 </div>
 
 <!-- ── HOW IT WORKS ── -->
-<div id="how-it-works" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
+<div id="how-it-works" class="anim-section anim-s2" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
   <div style="max-width:800px;margin:0 auto;text-align:center;">
-    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#555555;margin:0 0 12px;">Simple</p>
+    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#888888;margin:0 0 12px;">Simple</p>
     <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;color:#F0F0F0;letter-spacing:-0.6px;margin:0 0 48px;">Three steps to understanding your biology</h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left;">
       <div style="position:relative;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#00C896;
                     letter-spacing:0.08em;margin-bottom:16px;">01</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Connect your Oura Ring</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">One click OAuth. Takes 30 seconds. We request read-only access — we never write to your ring.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">One click OAuth. Takes 30 seconds. We request read-only access — we never write to your ring.</p>
       </div>
       <div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#7C6AF7;
                     letter-spacing:0.08em;margin-bottom:16px;">02</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">We analyse your complete history</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">Every day since you started wearing your ring. Sleep, HRV, readiness, activity, stress — all of it.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">Every day since you started wearing your ring. Sleep, HRV, readiness, activity, stress — all of it.</p>
       </div>
       <div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#F0C040;
                     letter-spacing:0.08em;margin-bottom:16px;">03</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Read what the science says about your body</p>
-        <p style="font-size:13px;color:#666666;line-height:1.6;margin:0;">AI detects patterns in your data and connects each one to peer-reviewed research — personalised to your numbers.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">AI detects patterns in your data and connects each one to peer-reviewed research — personalised to your numbers.</p>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ── RESEARCH PREVIEW ── -->
-<div id="research" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
+<div id="research" class="anim-section anim-s3" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
   <div style="max-width:960px;margin:0 auto;text-align:center;">
-    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#555555;margin:0 0 12px;">Free to explore</p>
+    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#888888;margin:0 0 12px;">Free to explore</p>
     <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;color:#F0F0F0;letter-spacing:-0.6px;margin:0 0 12px;">Try it free &mdash; no Oura required</h2>
-    <p style="font-size:15px;color:#666666;margin:0 0 40px;">Explore the peer-reviewed science behind HRV, sleep, stress, and recovery</p>
+    <p style="font-size:15px;color:#BBBBBB;margin:0 0 40px;">Explore the peer-reviewed science behind HRV, sleep, stress, and recovery</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left;margin-bottom:32px;">
       <div style="background:#111111;border:1px solid rgba(0,200,150,0.25);border-radius:12px;padding:20px;">
         <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,200,150,0.08);border:1px solid rgba(0,200,150,0.2);border-radius:5px;padding:3px 8px;margin-bottom:12px;">
           <span style="font-size:10px;font-weight:600;color:#00C896;letter-spacing:0.06em;text-transform:uppercase;">High Evidence</span>
         </div>
         <p style="font-size:14px;font-weight:600;color:#F0F0F0;margin:0 0 8px;line-height:1.3;">HRV and sleep quality are tightly coupled</p>
-        <p style="font-size:12px;color:#666666;line-height:1.5;margin:0;">Autonomic recovery during sleep directly predicts next-day heart rate variability.</p>
+        <p style="font-size:12px;color:#BBBBBB;line-height:1.5;margin:0;">Autonomic recovery during sleep directly predicts next-day heart rate variability.</p>
         <div style="display:flex;gap:16px;margin-top:14px;">
           <span style="font-size:11px;color:#444444;">24 papers</span>
           <span style="font-size:11px;color:#444444;">91 relevancy</span>
@@ -1337,7 +1332,7 @@ def render_landing_page():
           <span style="font-size:10px;font-weight:600;color:#7C6AF7;letter-spacing:0.06em;text-transform:uppercase;">High Evidence</span>
         </div>
         <p style="font-size:14px;font-weight:600;color:#F0F0F0;margin:0 0 8px;line-height:1.3;">Deep sleep consolidates memory and clears metabolic waste</p>
-        <p style="font-size:12px;color:#666666;line-height:1.5;margin:0;">Slow-wave sleep replays learned information and flushes neurotoxic waste via the glymphatic system.</p>
+        <p style="font-size:12px;color:#BBBBBB;line-height:1.5;margin:0;">Slow-wave sleep replays learned information and flushes neurotoxic waste via the glymphatic system.</p>
         <div style="display:flex;gap:16px;margin-top:14px;">
           <span style="font-size:11px;color:#444444;">19 papers</span>
           <span style="font-size:11px;color:#444444;">88 relevancy</span>
@@ -1348,7 +1343,7 @@ def render_landing_page():
           <span style="font-size:10px;font-weight:600;color:#F0C040;letter-spacing:0.06em;text-transform:uppercase;">Strong Evidence</span>
         </div>
         <p style="font-size:14px;font-weight:600;color:#F0F0F0;margin:0 0 8px;line-height:1.3;">Alcohol fragments sleep architecture and suppresses HRV</p>
-        <p style="font-size:12px;color:#666666;line-height:1.5;margin:0;">Even moderate alcohol before sleep disrupts staging and elevates resting HR in the first half of the night.</p>
+        <p style="font-size:12px;color:#BBBBBB;line-height:1.5;margin:0;">Even moderate alcohol before sleep disrupts staging and elevates resting HR in the first half of the night.</p>
         <div style="display:flex;gap:16px;margin-top:14px;">
           <span style="font-size:11px;color:#444444;">17 papers</span>
           <span style="font-size:11px;color:#444444;">89 relevancy</span>
@@ -1362,11 +1357,11 @@ def render_landing_page():
 </div>
 
 <!-- ── PRICING ── -->
-<div id="pricing" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
+<div id="pricing" class="anim-section anim-s4" style="padding:64px 40px;border-top:1px solid rgba(255,255,255,0.04);">
   <div style="max-width:480px;margin:0 auto;text-align:center;">
-    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#555555;margin:0 0 12px;">Simple pricing</p>
+    <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#888888;margin:0 0 12px;">Simple pricing</p>
     <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;color:#F0F0F0;letter-spacing:-0.6px;margin:0 0 8px;">One plan. Everything included.</h2>
-    <p style="font-size:13px;color:#555555;margin:0 0 32px;">Longevity clinics charge $5,000/year for this level of insight.</p>
+    <p style="font-size:13px;color:#AAAAAA;margin:0 0 32px;">Longevity clinics charge $5,000/year for this level of insight.</p>
     <div style="background:#111111;border:1px solid rgba(0,200,150,0.2);border-radius:16px;padding:32px;text-align:left;margin-bottom:24px;
                 box-shadow:0 0 0 1px rgba(0,200,150,0.1),0 0 40px rgba(0,200,150,0.04);">
       <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:20px;">
@@ -1397,22 +1392,25 @@ def render_landing_page():
         </div>
       </div>
     </div>
-    <div style="margin-bottom:16px;">
-      <a href="{auth_url}" target="_self" class="lp-cta" style="width:100%;box-sizing:border-box;justify-content:center;" data-track="pricing-cta">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <a href="?page=pricing" target="_self" class="lp-cta" style="width:100%;box-sizing:border-box;justify-content:center;" data-track="pricing-cta">
         <span class="shimmer"></span>
-        <span style="position:relative;z-index:1;">Start for free &mdash; upgrade when ready &#8594;</span>
+        <span style="position:relative;z-index:1;">Get access &mdash; $25/month &#8594;</span>
+      </a>
+      <a href="{auth_url}" target="_self" class="lp-sec-btn" style="justify-content:center;" data-track="pricing-oura">
+        Connect Oura Ring first &#8594;
       </a>
     </div>
-    <p style="font-size:12px;color:#444444;margin:0;">Cancel anytime &middot; No contracts &middot; Your data stays yours</p>
+    <p style="font-size:12px;color:#888888;margin:0;">Cancel anytime &middot; No contracts &middot; Your data stays yours</p>
   </div>
 </div>
 
 <!-- ── FINAL CTA ── -->
-<div style="padding:80px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.04);">
+<div class="anim-section anim-s5" style="padding:80px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.04);">
   <h2 style="font-size:clamp(24px,3.5vw,40px);font-weight:700;color:#F0F0F0;letter-spacing:-0.8px;margin:0 0 12px;">
     Stop looking at numbers.<br>Start understanding them.
   </h2>
-  <p style="font-size:15px;color:#555555;margin:0 0 36px;">Your data has been collecting since you first wore your ring. It&rsquo;s waiting to be analysed.</p>
+  <p style="font-size:15px;color:#BBBBBB;margin:0 0 36px;">Your data has been collecting since you first wore your ring. It&rsquo;s waiting to be analysed.</p>
   <a href="{auth_url}" target="_self" class="lp-cta" data-track="final-cta">
     <span class="shimmer"></span>
     <span style="position:relative;z-index:1;">Connect your Oura Ring &#8594;</span>
