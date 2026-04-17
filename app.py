@@ -468,6 +468,14 @@ _oauth_error = st.session_state.pop("_oauth_error", None)
 if _oauth_error:
     st.error(_oauth_error)
 
+_welcome_msg = st.session_state.pop("_welcome_msg", None)
+if _welcome_msg:
+    st.success(_welcome_msg)
+
+_payment_error = st.session_state.pop("_payment_error", None)
+if _payment_error:
+    st.error(f"Payment verification failed: {_payment_error}")
+
 connected    = st.session_state.get("connected", False)
 user_name    = st.session_state.get("user_name", "")
 user_id      = st.session_state.get("user_id")
@@ -491,6 +499,8 @@ if "mode" not in st.session_state:
     st.session_state.mode = "research"
 if "spec_val" not in st.session_state:
     st.session_state.spec_val = 2
+if "entered_app" not in st.session_state:
+    st.session_state["entered_app"] = False
 
 spec_val   = st.session_state.spec_val
 thumb_glow = get_glow_color(spec_val)
@@ -840,6 +850,7 @@ def topic_card_html(topic: dict, mode: str = "research", spec_val: int = 2) -> s
     desc      = topic.get("description", "")
 
     return (
+        f'<a href="?card={slug}&card_mode={mode}" target="_self" style="text-decoration:none;display:block;">'
         f'<div style="background:#111111;border:1px solid {border_color};'
         f'border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;'
         f'box-shadow:{shadow};cursor:pointer;position:relative;opacity:{opacity};'
@@ -859,6 +870,7 @@ def topic_card_html(topic: dict, mode: str = "research", spec_val: int = 2) -> s
         f'<span class="card-arrow" style="font-size:14px;color:#555555;transition:color 0.2s ease;">&rarr;</span>'
         f'</div>'
         f'</div>'
+        f'</a>'
     )
 
 
@@ -1149,11 +1161,6 @@ def _render_card_grid(topics: list, mode: str, spec_val: int, zone: int):
                         topic_card_html(t, mode=mode, spec_val=spec_val),
                         unsafe_allow_html=True,
                     )
-                    btn_key = f"card_{t['slug']}_{zone}_{refresh_count}_{row_start + i}_{mode}"
-                    if st.button(" ", key=btn_key, use_container_width=True, type="primary"):
-                        st.session_state["modal_slug"] = t["slug"]
-                        st.session_state["modal_mode"] = mode
-                        st.rerun()
             st.markdown('<div style="height:4px;"></div>', unsafe_allow_html=True)
 
     # Refresh button — always visible, replaces the 9 cards with the next batch
@@ -1773,17 +1780,27 @@ def render_terms_page():
 #  PAGE: PRICING
 # ══════════════════════════════════════════════════════════════════════════════
 def render_pricing_page():
-    # Pre-generate Stripe checkout URL so we can use a plain <a> link
+    # Cache checkout URL per email to avoid creating a new Stripe session on every render
     _checkout_error = ""
-    _cta_href = ""
-    try:
-        from stripe_handler import create_checkout_session
-        _cta_href = create_checkout_session(st.session_state.get("email", ""))
-    except Exception as _e:
-        _checkout_error = str(_e)
+    _current_email = st.session_state.get("email", "")
+    _cached_url   = st.session_state.get("_pricing_url", "")
+    _cached_email = st.session_state.get("_pricing_email", None)
+
+    if _cached_url and _cached_email == _current_email:
+        _cta_href = _cached_url
+    else:
+        _cta_href = ""
+        try:
+            from stripe_handler import create_checkout_session
+            _cta_href = create_checkout_session(_current_email)
+            st.session_state["_pricing_url"]   = _cta_href
+            st.session_state["_pricing_email"] = _current_email
+        except Exception as _e:
+            _checkout_error = str(_e)
 
     _error_html = (
-        f'<p style="font-size:12px;color:#E05050;text-align:center;margin:12px 0 0;max-width:420px;">Stripe error: {_checkout_error}</p>'
+        f'<p style="font-size:13px;color:#E05050;text-align:center;margin:12px 0 0;max-width:420px;">'
+        f'Stripe is not configured. Add STRIPE_SECRET_KEY and STRIPE_PRICE_ID to Streamlit Cloud Secrets, then reboot the app.</p>'
         if _checkout_error else ""
     )
 
@@ -2027,7 +2044,8 @@ _action = params.get("action", "")
 
 if _action == "signout":
     for _k in ["connected", "user_name", "user_id", "access_token", "email",
-               "trends", "nav_page", "is_paid", "just_connected"]:
+               "trends", "nav_page", "is_paid", "just_connected",
+               "entered_app", "_pricing_url", "_pricing_email"]:
         st.session_state.pop(_k, None)
     st.query_params.clear()
     st.rerun()
@@ -2051,10 +2069,20 @@ if params.get("back") == "1":
     st.query_params.clear()
     st.rerun()
 
+# Handle card click — set modal via URL param so the whole card is clickable
+_card_slug = params.get("card", "")
+if _card_slug:
+    st.session_state["modal_slug"] = _card_slug
+    st.session_state["modal_mode"] = params.get("card_mode", "research")
+    st.session_state["entered_app"] = True
+    st.query_params.clear()
+    st.rerun()
+
 # Handle mode switch from tab clicks
 _mode_param = params.get("mode", "")
 if _mode_param == "research":
     st.session_state.mode = "research"
+    st.session_state["entered_app"] = True
     st.session_state.pop("nav_page", None)
     st.session_state.pop("show_more_topics", None)
     st.query_params.clear()
@@ -2083,9 +2111,12 @@ if "session_id" in params:
         if _result:
             set_paid(_result["email"], _result.get("subscription_id", ""))
             st.session_state["is_paid"] = True
-            st.success("Payment confirmed. Welcome to Pulse!")
+            st.session_state["entered_app"] = True
+            st.session_state["_welcome_msg"] = "Payment confirmed — welcome to Pulse! Connect your Oura Ring to unlock your personal data."
+            st.session_state.pop("_pricing_url", None)
+            st.session_state.pop("_pricing_email", None)
     except Exception as _e:
-        st.error(f"Payment verification failed: {_e}")
+        st.session_state["_payment_error"] = str(_e)
     st.query_params.clear()
     st.rerun()
 
@@ -2112,12 +2143,7 @@ elif _modal_slug:
     render_modal(_modal_slug, mode=_modal_mode)
 
 else:
-    # Allow non-connected users to browse research mode via ?mode=research
-    _route_mode = st.query_params.get("mode", "")
-    if _route_mode == "research" and not st.session_state.get("mode"):
-        st.session_state["mode"] = "research"
-
-    if not connected and st.session_state.get("mode") != "research":
+    if not connected and not st.session_state.get("entered_app"):
         render_landing_page()
     else:
         search_query = render_navbar()

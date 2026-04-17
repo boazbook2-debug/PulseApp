@@ -101,14 +101,24 @@ def get_user_access(email: str) -> bool:
 
 
 def set_paid(email: str, subscription_id: str) -> None:
-    """Mark a user as paid after successful Stripe payment."""
+    """Mark a user as paid. Creates a partial row if the user hasn't connected Oura yet."""
     from datetime import datetime, timezone
     try:
         client = get_client()
-        client.table("users").update({
-            "is_paid": True,
-            "subscription_id": subscription_id,
-            "paid_at": datetime.now(timezone.utc).isoformat(),
-        }).eq("email", email).execute()
+        now = datetime.now(timezone.utc).isoformat()
+        existing = client.table("users").select("id").eq("email", email).execute()
+        if existing.data:
+            client.table("users").update({
+                "is_paid": True,
+                "subscription_id": subscription_id,
+                "paid_at": now,
+            }).eq("email", email).execute()
+        else:
+            client.table("users").insert({
+                "email": email,
+                "is_paid": True,
+                "subscription_id": subscription_id,
+                "paid_at": now,
+            }).execute()
     except Exception:
         pass
