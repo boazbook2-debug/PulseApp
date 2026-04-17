@@ -1,5 +1,5 @@
 from supabase import create_client
-from config import get_secret
+from pulse_config import get_secret
 
 
 def get_client():

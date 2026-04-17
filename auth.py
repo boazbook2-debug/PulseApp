@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urlencode
-from config import get_secret
+from pulse_config import get_secret
 
 OURA_AUTH_URL = "https://cloud.ouraring.com/oauth/authorize"
 OURA_TOKEN_URL = "https://api.ouraring.com/oauth/token"

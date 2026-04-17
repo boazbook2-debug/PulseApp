@@ -1,6 +1,6 @@
 import streamlit as st
 from groq import Groq
-from config import get_secret
+from pulse_config import get_secret
 from auth import get_auth_url, exchange_code_for_tokens, get_user_info
 from database import (
     save_user, get_oura_data, save_oura_data, get_user_by_email,
