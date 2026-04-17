@@ -612,9 +612,8 @@ a, a:link, a:visited, a:hover, a:active, a:focus {{
     text-decoration: none !important;
     -webkit-text-decoration: none !important;
 }}
-/* Streamlit markdown renders <a> with its own blue — override */
 [data-testid="stMarkdownContainer"] a {{
-    color: #00C896 !important;
+    color: #F0F0F0 !important;
     text-decoration: none !important;
 }}
 
@@ -623,27 +622,23 @@ a, a:link, a:visited, a:hover, a:active, a:focus {{
     color: #C0C0C0;
 }}
 
-/* ── Scroll-triggered entrance animations ───────────────────────────────── */
-@keyframes fadeInUp {{
-    from {{ opacity: 0; transform: translateY(28px); }}
-    to   {{ opacity: 1; transform: translateY(0); }}
-}}
+/* ── Scroll animations — JS adds .is-visible via IntersectionObserver ───── */
 .anim-section {{
-    animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                transform 0.65s cubic-bezier(0.16,1,0.3,1);
 }}
-.anim-s1 {{ animation-delay: 0.05s; }}
-.anim-s2 {{ animation-delay: 0.18s; }}
-.anim-s3 {{ animation-delay: 0.31s; }}
-.anim-s4 {{ animation-delay: 0.44s; }}
-.anim-s5 {{ animation-delay: 0.57s; }}
-.anim-s6 {{ animation-delay: 0.70s; }}
-/* Modern Chrome: real scroll-triggered firing */
-@supports (animation-timeline: view()) {{
-    .anim-section {{
-        animation-timeline: view();
-        animation-range: entry 0% entry 30%;
-    }}
+.anim-section.is-visible {{
+    opacity: 1;
+    transform: translateY(0);
 }}
+.anim-s1 {{ transition-delay: 0s;     }}
+.anim-s2 {{ transition-delay: 0.09s;  }}
+.anim-s3 {{ transition-delay: 0.18s;  }}
+.anim-s4 {{ transition-delay: 0.27s;  }}
+.anim-s5 {{ transition-delay: 0.36s;  }}
+.anim-s6 {{ transition-delay: 0.45s;  }}
 
 /* ── Shared gradient CTA link (paywall, pricing, connect) ───────────────── */
 @keyframes glow-pulse {{

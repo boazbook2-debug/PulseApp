@@ -1419,6 +1419,23 @@ def render_landing_page():
 </div>
 
 </div>
+
+<iframe style="display:none;width:0;height:0;border:none;" srcdoc="<script>
+(function(){{
+  function setup(){{
+    var doc=window.parent.document;
+    var els=doc.querySelectorAll('.anim-section');
+    if(!els.length){{setTimeout(setup,200);return;}}
+    var io=new IntersectionObserver(function(entries){{
+      entries.forEach(function(e){{
+        if(e.isIntersecting)e.target.classList.add('is-visible');
+      }});
+    }},{{threshold:0.08}});
+    els.forEach(function(el){{io.observe(el);}});
+  }}
+  setTimeout(setup,400);
+}})();
+</script>"></iframe>
 """, unsafe_allow_html=True)
     render_footer()
 
