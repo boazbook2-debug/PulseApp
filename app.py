@@ -534,19 +534,32 @@ def render_navbar():
     with c_mid:
         st.markdown("""
         <div style="width:100%;text-align:center;">
-            <span class="pulse-logo"
-                  style="font-size:22px;font-weight:700;color:#FFFFFF;
-                         letter-spacing:-0.5px;font-family:'Plus Jakarta Sans',sans-serif;">
-                Pulse
-            </span>
+            <a href="?" target="_self" style="text-decoration:none;">
+                <span class="pulse-logo"
+                      style="font-size:22px;font-weight:700;color:#FFFFFF;
+                             letter-spacing:-0.5px;font-family:'Plus Jakarta Sans',sans-serif;
+                             cursor:pointer;">
+                    Pulse
+                </span>
+            </a>
         </div>
         """, unsafe_allow_html=True)
 
     with c_right:
         if connected:
+            is_paid = st.session_state.get("is_paid", False)
             initial = user_name[0].upper() if user_name else "U"
+            upgrade_btn = "" if is_paid else (
+                '<a href="?page=pricing" target="_self" '
+                'style="font-size:12px;font-weight:700;color:#080808;background:#00C896;'
+                'text-decoration:none;border-radius:7px;padding:7px 14px;white-space:nowrap;'
+                'margin-right:12px;transition:opacity 0.2s;" '
+                'onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">'
+                'Get Access $25/mo</a>'
+            )
             st.markdown(f"""
             <div style="display:flex;justify-content:flex-end;align-items:center;">
+                {upgrade_btn}
                 <details class="user-menu">
                     <summary>
                         <div class="user-avatar">{initial}</div>
@@ -563,21 +576,42 @@ def render_navbar():
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
-            <div style="width:100%;display:flex;justify-content:flex-end;">
+            <div style="width:100%;display:flex;justify-content:flex-end;align-items:center;gap:10px;">
+                <a href="?page=pricing" target="_self"
+                   style="font-size:13px;font-weight:700;color:#080808;background:#00C896;
+                          text-decoration:none;white-space:nowrap;
+                          border-radius:8px;padding:9px 16px;
+                          transition:opacity 0.2s ease;"
+                   onmouseover="this.style.opacity='0.85'"
+                   onmouseout="this.style.opacity='1'">
+                    Get Access $25/mo
+                </a>
                 <a href="{get_auth_url()}" target="_self"
-                   style="font-size:14px;font-weight:500;color:#888888;
+                   style="font-size:13px;font-weight:500;color:#888888;
                           text-decoration:none;white-space:nowrap;
                           border:1px solid rgba(255,255,255,0.10);
-                          border-radius:8px;padding:9px 20px;
+                          border-radius:8px;padding:9px 16px;
                           transition:all 0.2s ease;"
                    onmouseover="this.style.color='#F0F0F0';this.style.borderColor='rgba(255,255,255,0.22)'"
                    onmouseout="this.style.color='#888888';this.style.borderColor='rgba(255,255,255,0.10)'">
-                    Connect Oura Ring
+                    Connect Oura
                 </a>
             </div>
             """, unsafe_allow_html=True)
 
     return st.session_state.get("search", "")
+
+
+def render_back_button(label="← Home", href="?"):
+    st.markdown(
+        f'<div style="padding:16px 0 4px;">'
+        f'<a href="{href}" target="_self" '
+        f'style="font-size:13px;font-weight:500;color:#666666;text-decoration:none;'
+        f'display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;" '
+        f'onmouseover="this.style.color=\'#F0F0F0\'" onmouseout="this.style.color=\'#666666\'">'
+        f'{label}</a></div>',
+        unsafe_allow_html=True,
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -927,6 +961,7 @@ def paper_card_html(article: dict, mode: str = "research",
 #  COMPONENT: MODAL POPUP
 # ══════════════════════════════════════════════════════════════════════════════
 def render_modal(slug: str, mode: str = "research"):
+    render_back_button("← Back to topics")
     # ── Resolve topic data ──────────────────────────────────────────────────────
     if mode == "research":
         topic       = next((t for t in _all_topics() if t["slug"] == slug), None)
@@ -1206,20 +1241,25 @@ def render_landing_page():
             backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
             border-bottom:1px solid rgba(255,255,255,0.06);
             display:flex;align-items:center;justify-content:space-between;padding:0 40px;">
-  <span style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">Pulse</span>
+  <a href="?" target="_self" style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;text-decoration:none;">Pulse</a>
   <div style="display:flex;align-items:center;gap:28px;">
     <a href="#how-it-works" target="_self" style="font-size:13px;color:#888888;text-decoration:none;">How it works</a>
     <a href="#research" target="_self" style="font-size:13px;color:#888888;text-decoration:none;">Research</a>
     <a href="#pricing" target="_self" style="font-size:13px;color:#888888;text-decoration:none;">Pricing</a>
   </div>
-  <a href="{auth_url}" target="_self"
-     style="display:inline-flex;align-items:center;gap:8px;background:#00C896;color:#080808 !important;
-            font-size:13px;font-weight:700;text-decoration:none !important;border-radius:8px;
-            padding:9px 18px;letter-spacing:-0.1px;transition:opacity 0.2s;"
-     onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'"
-     data-track="header-cta">
-    Connect Oura Ring &#8594;
-  </a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="?page=pricing" target="_self"
+       style="display:inline-flex;align-items:center;background:#00C896;color:#080808 !important;
+              font-size:13px;font-weight:700;text-decoration:none !important;border-radius:8px;
+              padding:9px 18px;letter-spacing:-0.1px;transition:opacity 0.2s;"
+       onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+      Get Access $25/mo
+    </a>
+    onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'"
+       data-track="header-oura">
+      Connect Oura &#8594;
+    </a>
+  </div>
 </div>
 
 <!-- ── HERO ── -->
@@ -1670,9 +1710,12 @@ def render_footer():
 def render_privacy_page():
     st.markdown(
         '<div style="min-height:100vh;background:#080808;font-family:\'Plus Jakarta Sans\',sans-serif;">'
-        '<div style="height:64px;display:flex;align-items:center;justify-content:center;'
+        '<div style="height:64px;display:flex;align-items:center;justify-content:space-between;'
         'padding:0 40px;border-bottom:1px solid rgba(255,255,255,0.06);background:#080808;">'
-        '<span style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">Pulse</span>'
+        '<a href="?" target="_self" style="font-size:13px;color:#666666;text-decoration:none;" '
+        'onmouseover="this.style.color=\'#F0F0F0\'" onmouseout="this.style.color=\'#666666\'">&#8592; Home</a>'
+        '<a href="?" target="_self" style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;text-decoration:none;">Pulse</a>'
+        '<span></span>'
         '</div>'
         '<div style="padding:12px 40px 0;">'
         '<a href="?back=1" target="_self" style="font-size:13px;color:#F0F0F0;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" '
@@ -1750,9 +1793,12 @@ def render_privacy_page():
 def render_terms_page():
     st.markdown(
         '<div style="min-height:100vh;background:#080808;font-family:\'Plus Jakarta Sans\',sans-serif;">'
-        '<div style="height:64px;display:flex;align-items:center;justify-content:center;'
+        '<div style="height:64px;display:flex;align-items:center;justify-content:space-between;'
         'padding:0 40px;border-bottom:1px solid rgba(255,255,255,0.06);background:#080808;">'
-        '<span style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">Pulse</span>'
+        '<a href="?" target="_self" style="font-size:13px;color:#666666;text-decoration:none;" '
+        'onmouseover="this.style.color=\'#F0F0F0\'" onmouseout="this.style.color=\'#666666\'">&#8592; Home</a>'
+        '<a href="?" target="_self" style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;text-decoration:none;">Pulse</a>'
+        '<span></span>'
         '</div>'
         '<div style="padding:12px 40px 0;">'
         '<a href="?back=1" target="_self" style="font-size:13px;color:#F0F0F0;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" '
@@ -1803,6 +1849,7 @@ def render_terms_page():
 #  PAGE: PRICING
 # ══════════════════════════════════════════════════════════════════════════════
 def render_pricing_page():
+    render_back_button("← Back")
     # Cache checkout URL per email to avoid creating a new Stripe session on every render
     _checkout_error = ""
     _current_email = st.session_state.get("email", "")
@@ -1970,13 +2017,16 @@ def render_connect_page():
     html = (
         '<div style="min-height:100vh;background:#080808;font-family:\'Plus Jakarta Sans\',sans-serif;">'
 
-        # ── Navbar — logo only, centered ──
-        '<div style="height:64px;display:flex;align-items:center;justify-content:center;'
+        # ── Navbar ──
+        '<div style="height:64px;display:flex;align-items:center;justify-content:space-between;'
         'padding:0 40px;border-bottom:1px solid rgba(255,255,255,0.06);'
         'background:#080808;position:sticky;top:0;z-index:500;">'
-        '<span class="pulse-logo" style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">Pulse</span>'
+        '<a href="?" target="_self" style="font-size:13px;color:#666666;text-decoration:none;" '
+        'onmouseover="this.style.color=\'#F0F0F0\'" onmouseout="this.style.color=\'#666666\'">&#8592; Home</a>'
+        '<a href="?" target="_self" style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;text-decoration:none;">Pulse</a>'
+        '<a href="?page=pricing" target="_self" style="font-size:13px;font-weight:700;color:#080808;background:#00C896;'
+        'text-decoration:none;border-radius:7px;padding:7px 14px;">Get Access $25/mo</a>'
         '</div>'
-        # Back arrow below navbar
         '<div style="padding:12px 40px 0;">'
         '<a href="?back=1" target="_self" style="font-size:13px;color:#F0F0F0;text-decoration:none;opacity:0.6;transition:opacity 0.2s;" '
         'onmouseover="this.style.opacity=\'1\'" onmouseout="this.style.opacity=\'0.6\'">&#8592; Back</a>'
