@@ -586,16 +586,6 @@ def render_navbar():
                    onmouseout="this.style.opacity='1'">
                     Get Access $25/mo
                 </a>
-                <a href="{get_auth_url()}" target="_self"
-                   style="font-size:13px;font-weight:500;color:#888888;
-                          text-decoration:none;white-space:nowrap;
-                          border:1px solid rgba(255,255,255,0.10);
-                          border-radius:8px;padding:9px 16px;
-                          transition:all 0.2s ease;"
-                   onmouseover="this.style.color='#F0F0F0';this.style.borderColor='rgba(255,255,255,0.22)'"
-                   onmouseout="this.style.color='#888888';this.style.borderColor='rgba(255,255,255,0.10)'">
-                    Connect Oura
-                </a>
             </div>
             """, unsafe_allow_html=True)
 
@@ -1247,19 +1237,13 @@ def render_landing_page():
     <a href="#research" target="_self" style="font-size:13px;color:#888888;text-decoration:none;">Research</a>
     <a href="#pricing" target="_self" style="font-size:13px;color:#888888;text-decoration:none;">Pricing</a>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <a href="?page=pricing" target="_self"
-       style="display:inline-flex;align-items:center;background:#00C896;color:#080808 !important;
-              font-size:13px;font-weight:700;text-decoration:none !important;border-radius:8px;
-              padding:9px 18px;letter-spacing:-0.1px;transition:opacity 0.2s;"
-       onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
-      Get Access $25/mo
-    </a>
-    onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'"
-       data-track="header-oura">
-      Connect Oura &#8594;
-    </a>
-  </div>
+  <a href="?page=pricing" target="_self"
+     style="display:inline-flex;align-items:center;background:#00C896;color:#080808 !important;
+            font-size:13px;font-weight:700;text-decoration:none !important;border-radius:8px;
+            padding:9px 18px;letter-spacing:-0.1px;transition:opacity 0.2s;"
+     onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+    Get Access &mdash; $25/mo
+  </a>
 </div>
 
 <!-- ── HERO ── -->
@@ -1269,19 +1253,19 @@ def render_landing_page():
     Your biometrics, connected<br>to the science behind them.
   </h1>
   <p style="font-size:clamp(16px,2vw,19px);color:#C8C8C8;line-height:1.65;max-width:600px;margin:0 auto 40px;">
-    Pulse links your complete Oura Ring history to peer-reviewed research —
-    so you understand not just your numbers, but what they mean.
+    Pulse analyses your complete Oura Ring history and links every pattern
+    to peer-reviewed research &mdash; so you understand not just your numbers, but what they mean.
   </p>
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;">
-    <a href="{auth_url}" target="_self" class="lp-cta" data-track="hero-cta">
+    <a href="?page=pricing" target="_self" class="lp-cta" data-track="hero-cta">
       <span class="shimmer"></span>
-      <span style="position:relative;z-index:1;">Connect your Oura Ring &mdash; free &#8594;</span>
+      <span style="position:relative;z-index:1;">Get personalised insights &mdash; $25/mo &#8594;</span>
     </a>
     <a href="?mode=research" target="_self" class="lp-sec-btn" data-track="hero-research">
-      Explore research topics &#8594;
+      Explore research free &#8594;
     </a>
   </div>
-  <p style="font-size:12px;color:#444444;margin:8px 0 0;">No credit card required to start</p>
+  <p style="font-size:12px;color:#555555;margin:10px 0 0;">Subscribe first &middot; then connect your Oura Ring &middot; cancel anytime</p>
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
               margin-top:32px;padding:14px 24px;background:rgba(255,255,255,0.03);
               border:1px solid rgba(255,255,255,0.06);border-radius:12px;max-width:580px;margin-left:auto;margin-right:auto;">
@@ -1338,20 +1322,20 @@ def render_landing_page():
       <div style="position:relative;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#00C896;
                     letter-spacing:0.08em;margin-bottom:16px;">01</div>
-        <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Connect your Oura Ring</p>
-        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">One click OAuth. Takes 30 seconds. We request read-only access — we never write to your ring.</p>
+        <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Subscribe for $25/month</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">One simple plan. No hidden fees. Gives you full access to your personalised health intelligence dashboard.</p>
       </div>
       <div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#7C6AF7;
                     letter-spacing:0.08em;margin-bottom:16px;">02</div>
-        <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">We analyse your complete history</p>
-        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">Every day since you started wearing your ring. Sleep, HRV, readiness, activity, stress — all of it.</p>
+        <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Connect your Oura Ring</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">One-click OAuth after subscribing. Read-only access — we pull your history but never write to your ring.</p>
       </div>
       <div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:#F0C040;
                     letter-spacing:0.08em;margin-bottom:16px;">03</div>
         <p style="font-size:15px;font-weight:600;color:#F0F0F0;margin:0 0 8px;">Read what the science says about your body</p>
-        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">AI detects patterns in your data and connects each one to peer-reviewed research — personalised to your numbers.</p>
+        <p style="font-size:13px;color:#BBBBBB;line-height:1.6;margin:0;">AI detects patterns across every day of your data and links each one to peer-reviewed research — personalised to your numbers.</p>
       </div>
     </div>
   </div>
@@ -1440,16 +1424,13 @@ def render_landing_page():
         </div>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+    <div style="margin-bottom:16px;">
       <a href="?page=pricing" target="_self" class="lp-cta" style="width:100%;box-sizing:border-box;justify-content:center;" data-track="pricing-cta">
         <span class="shimmer"></span>
         <span style="position:relative;z-index:1;">Get access &mdash; $25/month &#8594;</span>
       </a>
-      <a href="{auth_url}" target="_self" class="lp-sec-btn" style="justify-content:center;" data-track="pricing-oura">
-        Connect Oura Ring first &#8594;
-      </a>
     </div>
-    <p style="font-size:12px;color:#888888;margin:0;">Cancel anytime &middot; No contracts &middot; Your data stays yours</p>
+    <p style="font-size:12px;color:#888888;margin:0;">Cancel anytime &middot; No contracts &middot; Connect Oura Ring after subscribing</p>
   </div>
 </div>
 
@@ -1458,12 +1439,12 @@ def render_landing_page():
   <h2 style="font-size:clamp(24px,3.5vw,40px);font-weight:700;color:#F0F0F0;letter-spacing:-0.8px;margin:0 0 12px;">
     Stop looking at numbers.<br>Start understanding them.
   </h2>
-  <p style="font-size:15px;color:#BBBBBB;margin:0 0 36px;">Your data has been collecting since you first wore your ring. It&rsquo;s waiting to be analysed.</p>
-  <a href="{auth_url}" target="_self" class="lp-cta" data-track="final-cta">
+  <p style="font-size:15px;color:#BBBBBB;margin:0 0 36px;">Your biometric data has been collecting since day one. Subscribe to unlock what it actually means.</p>
+  <a href="?page=pricing" target="_self" class="lp-cta" data-track="final-cta">
     <span class="shimmer"></span>
-    <span style="position:relative;z-index:1;">Connect your Oura Ring &#8594;</span>
+    <span style="position:relative;z-index:1;">Get personalised insights &mdash; $25/mo &#8594;</span>
   </a>
-  <p style="font-size:12px;color:#333333;margin:16px 0 0;">No credit card required &middot; Read-only access &middot; Disconnect anytime</p>
+  <p style="font-size:12px;color:#333333;margin:16px 0 0;">Subscribe &middot; connect Oura Ring &middot; cancel anytime</p>
 </div>
 
 </div>
@@ -1495,28 +1476,54 @@ def render_homepage(search_query: str):
     mode = st.session_state.mode
 
     if mode == "personal" and not connected:
-        st.markdown(f"""
-        <div style="padding:80px 40px;text-align:center;max-width:480px;margin:0 auto;">
-            <div style="width:48px;height:48px;border-radius:50%;
-                        background:linear-gradient(135deg,#7C6AF7,#00C896);
-                        margin:0 auto 24px;display:flex;align-items:center;
-                        justify-content:center;font-size:20px;">&#9679;</div>
-            <h2 style="font-size:20px;font-weight:600;color:#F0F0F0;
-                       letter-spacing:-0.3px;margin:0 0 12px;">Connect your Oura Ring</h2>
-            <p style="font-size:15px;color:#888888;line-height:1.7;margin:0 0 32px;">
-                Your Data mode surfaces insights from your actual biometric patterns.
-                Connect your ring to get started.
-            </p>
-            <a href="{get_auth_url()}" target="_self"
-               style="display:inline-block;background:#7C6AF7;color:#fff;
-                      font-size:14px;font-weight:600;text-decoration:none;
-                      border-radius:8px;padding:12px 28px;transition:opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.88'"
-               onmouseout="this.style.opacity='1'">
-                Connect Oura Ring
-            </a>
-        </div>
-        """, unsafe_allow_html=True)
+        is_paid = st.session_state.get("is_paid", False)
+        if is_paid:
+            # Paid but ring not yet connected — prompt to connect
+            st.markdown(f"""
+            <div style="padding:80px 40px;text-align:center;max-width:480px;margin:0 auto;">
+                <div style="width:48px;height:48px;border-radius:50%;
+                            background:linear-gradient(135deg,#7C6AF7,#00C896);
+                            margin:0 auto 24px;display:flex;align-items:center;
+                            justify-content:center;font-size:20px;">&#9679;</div>
+                <h2 style="font-size:20px;font-weight:600;color:#F0F0F0;
+                           letter-spacing:-0.3px;margin:0 0 12px;">One more step — connect your Oura Ring</h2>
+                <p style="font-size:15px;color:#888888;line-height:1.7;margin:0 0 32px;">
+                    You&rsquo;re subscribed. Now link your Oura Ring to unlock your personalised data analysis.
+                </p>
+                <a href="{get_auth_url()}" target="_self"
+                   style="display:inline-block;background:#00C896;color:#080808;
+                          font-size:14px;font-weight:700;text-decoration:none;
+                          border-radius:8px;padding:12px 28px;transition:opacity 0.2s ease;"
+                   onmouseover="this.style.opacity='0.88'"
+                   onmouseout="this.style.opacity='1'">
+                    Connect Oura Ring &#8594;
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            # Not paid — send to pricing
+            st.markdown("""
+            <div style="padding:80px 40px;text-align:center;max-width:480px;margin:0 auto;">
+                <div style="width:48px;height:48px;border-radius:50%;
+                            background:linear-gradient(135deg,#7C6AF7,#00C896);
+                            margin:0 auto 24px;display:flex;align-items:center;
+                            justify-content:center;font-size:20px;">&#9679;</div>
+                <h2 style="font-size:20px;font-weight:600;color:#F0F0F0;
+                           letter-spacing:-0.3px;margin:0 0 12px;">Unlock your personalised data</h2>
+                <p style="font-size:15px;color:#888888;line-height:1.7;margin:0 0 32px;">
+                    Subscribe to get AI-detected trends from your actual Oura biometrics,
+                    linked to peer-reviewed research.
+                </p>
+                <a href="?page=pricing" target="_self"
+                   style="display:inline-block;background:#00C896;color:#080808;
+                          font-size:14px;font-weight:700;text-decoration:none;
+                          border-radius:8px;padding:12px 28px;transition:opacity 0.2s ease;"
+                   onmouseover="this.style.opacity='0.88'"
+                   onmouseout="this.style.opacity='1'">
+                    Get Access &mdash; $25/month &#8594;
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
         return
 
     # ── Grid label ────────────────────────────────────────────────────────────
@@ -2228,12 +2235,12 @@ else:
                 'data-track="guest-banner">'
                 '<p style="font-size:13px;color:#888888;margin:0;">'
                 '&#128301; Browsing research topics. '
-                '<span style="color:#7C6AF7;">Connect your Oura Ring to unlock your personal data analysis.</span></p>'
-                f'<a href="{get_auth_url()}" target="_self" '
+                '<span style="color:#7C6AF7;">Subscribe to unlock your personalised data analysis.</span></p>'
+                '<a href="?page=pricing" target="_self" '
                 'style="font-size:12px;font-weight:600;color:#080808;background:#7C6AF7;'
                 'text-decoration:none;border-radius:6px;padding:5px 14px;white-space:nowrap;'
                 'transition:opacity 0.2s;" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">'
-                'Connect Oura Ring</a>'
+                'Get Access $25/mo</a>'
                 '</div>',
                 unsafe_allow_html=True,
             )
